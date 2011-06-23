@@ -1,0 +1,41 @@
+OpenERP-Install
+===============
+
+	Introduction
+	Requirements
+	install_openERP_server.sh
+	install_openERP_client.sh
+	install_openERP_web.sh
+	To-do List
+
+
+Introduction
+------------
+Install OpenERP software (Server, Client and Web) on your Ubuntu system.
+Currently install OpenERP 6.0.2
+These install files are not intended to be elegant, merely functional.
+The impetus for writing these files was the sheer number of manual steps
+required in
+http://doc.openerp.com/v6.0/install/index.html#installation-link
+
+These scripts are maintained at https://github.com/JGifford/OpenERP-Install and
+can be accessed via git@github.com:JGifford/OpenERP-Install.git
+They are released under a GNU General Public License. If you have improvements,
+please contribute via github.
+
+Requirements
+------------
+I tested with a fairly vanilla Ubuntu 10.04 LTS installation.
+2.6.32-28-generic-pae #55-Ubuntu SMP Mon Jan 10 22:34:08 UTC 2011 i686 GNU/Linux
+Check yours with 'uname -rvmo'
+Your mileage may vary.
+
+install_openERP_server.sh
+-------------------------
+
+install_openERP_client.sh
+-------------------------
+
+install_openERP_web.sh
+----------------------
+
