@@ -8,7 +8,6 @@ OpenERP-Install
 	install_openERP_web.sh
 	To-do List
 
-
 Introduction
 ------------
 Install OpenERP software (Server, Client and Web) on your Ubuntu system.
