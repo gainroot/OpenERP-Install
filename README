@@ -33,8 +33,10 @@ Your mileage may vary.
 
 install_openERP_server.sh
 -------------------------
-Installs Postgres and the OpenERP Server on your host.
-Creates a user XXX with password of YYY to get you started.
+Installs PostgreSQL and the OpenERP Server on your host.
+Creates a Postgres superuser "openerp" with password of "postgres" to get you
+started. These settings (db_user, db_password and db_host) are added as options
+to the OpenERP Server rc file, ".openerp_serverrc".
 
 Usage: install_openERP_server.sh
 Creates a log file in your home directory. You can watch it by typing:
