@@ -17,10 +17,12 @@ The impetus for writing these files was the sheer number of manual steps
 required in
 http://doc.openerp.com/v6.0/install/index.html#installation-link
 
-These scripts are maintained at https://github.com/JGifford/OpenERP-Install and
-can be accessed via git@github.com:JGifford/OpenERP-Install.git
+These scripts are maintained at https://github.com/JGifford/OpenERP-Install
 They are released under a GNU General Public License. If you have improvements,
 please contribute via github.
+
+For more information, please visit http://gainroot.co/solutions/openerp
+
 
 Requirements
 ------------
