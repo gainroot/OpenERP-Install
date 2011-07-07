@@ -41,6 +41,14 @@ SCRIPTNAME=/etc/init.d/$NAME
 # Specify the user name
 USER="openerp"
 
+# Exit if requested user doesn't exist
+/usr/bin/id $USER >/dev/null 2>&1
+RETVAL=$?
+if [ $RETVAL -ne 0 ]; then
+    log_end_msg 1
+    exit 1
+fi
+
 # Specifty an alternate config file (Default: ~/.openerp-serverrc)
 CONFIGFILE="/etc/$NAME.cfg"
 
@@ -60,26 +68,6 @@ VERBOSE="yes"
 # Define LSB log_* functions.
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
-
-#
-# For debugging purposes
-#
-if [ -n "$DEBUG" ]; then
-    echo "NAME=        "$NAME
-    echo "DAEMON=      "$DAEMON
-    echo "DAEMON_ARGS= "$DAEMON_ARGS
-    echo "PIDFILE=     "$PIDFILE
-    pid=`cat $PIDFILE`
-    echo "pid=         "$pid " Searching for PID....."
-    if [ $pid ]; then
-	echo `ps -ef | grep $pid | grep -v grep`
-    fi
-    echo "SCRIPTNAME=  "$SCRIPTNAME
-    echo "USER=        "$USER
-    echo "CONFIGFILE=  "$CONFIGFILE " Displaying contents of $CONFIGFILE....."
-    cat $CONFIGFILE
-    echo ""
-fi
 
 #
 # Function that creates the LOGDIR if needed
@@ -232,15 +220,6 @@ do_stop()
 	fi
     fi
 }
-
-#
-# Check for requested user
-/usr/bin/id $USER >/dev/null 2>&1
-RETVAL=$?
-if [ $RETVAL -ne 0 ]; then
-    log_end_msg 1
-    exit 1
-fi
 
 case "$1" in
   start)
