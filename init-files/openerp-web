@@ -1,0 +1,271 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides: openerp-web
+# Required-Start: $local_fs $remote_fs $network openerp-server
+# Required-Stop: 
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: OpenERP Web
+# Description: OpenERP is a complete ERP and CRM software package
+### END INIT INFO
+
+# Author: http://Gainroot.co and J Gifford
+# Acknowledgement is given to J Lynch, Wyden Silvan ( http://bit.ly/oM4Ks7 )
+# and the /etc/init.d/skeleton file
+
+# Expects:
+#   - openerp-server & Postgresql to be installed
+#   - openerp-web to be installed
+#   - a user/group of openerp/openerp to exist
+#
+# Tested with a default Ubuntu 10.04 LTS installation. (uname -rvmo)
+# 2.6.32-28-generic-pae #55-Ubuntu SMP Mon Jan 10 22:34:08 UTC 2011 i686 GNU/Linux
+# Your mileage may vary.
+
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="OpenERP Web"
+NAME=openerp-web
+DAEMON=/usr/local/bin/$NAME
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+DAEMON_ARGS=""
+
+# Specify the user name
+USER="openerp"
+
+# Exit if requested user doesn't exist
+/usr/bin/id $USER >/dev/null 2>&1
+RETVAL=$?
+if [ $RETVAL -ne 0 ]; then
+    log_end_msg 1
+    exit 1
+fi
+
+# Exit if the package is not installed
+if [ ! -x "$DAEMON" ]; then
+    log_end_msg 1
+    exit 1
+fi
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Override systemwide VERBOSE setting for this instance
+VERBOSE="yes"
+#DEBUG="yes"
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
+. /lib/lsb/init-functions
+
+#
+# Function that creates the LOGDIR if needed
+#
+makelogdir()
+{
+    # make a directory for the openerp-* logfiles
+    if [ ! -d $LOGDIR ]; then
+	[ -n "$DEBUG" ] && echo "making logdir $LOGDIR"
+	sudo install -d -g $USER -m 1775 -o root $LOGDIR
+	RETVAL=$?
+	ls -al $LOGDIR
+	return $RETVAL
+    fi
+}
+
+touchlogfile()
+{
+    # touch the logfile if doesn't exist
+    if [ ! -f "$LOGFILE" ]; then
+	[ -n "$DEBUG" ] && echo "logfile doesn't exist, touching"
+	touch $LOGFILE
+	chmod 644 $LOGFILE
+	chown root.$USER $LOGFILE
+	[ -n "$DEBUG" ] && echo `ls -al $LOGFILE`
+    fi
+}
+
+#
+# Function that checks for daemon/service pidfile
+#
+checkpid() {
+    # Return
+    #   1 if no pidfile
+    #   1 if pidfile but no matching process (removes pidfile)
+    #   0 if pidfile and process
+
+    # No PIDFILE so return 1
+    [ -f $PIDFILE ] || return 1
+
+    # PIDFILE exists, so get pid
+    pid=`cat $PIDFILE`
+    if [ -d /proc/$pid ]; then
+        # PIDFILE exists and so does process, so return 0
+	[ -n "$DEBUG" ] && echo "found PID=$pid"
+	return 0
+    else
+	# PIDFILE exists, but not the process
+	rm $PIDFILE # do we really want to remove all evidence?
+	return 1
+    fi
+}
+
+#
+# DEBUG function
+#
+pidstatus()
+{
+    # check for daemon's pid
+    checkpid
+    ISPID=$?
+    # if no pid, then daemon was stopped
+    if [ $ISPID -eq 1  ]; then
+	[ -n "$DEBUG" ] && echo "no pid, daemon stopped"
+    else
+	[ -n "$DEBUG" ] && echo "found pid"
+	pid=`cat $PIDFILE`
+	echo "pid=         "$pid " Searching for PID....."
+	if [ $pid ]; then
+	    echo `ps -ef | grep $pid | grep -v grep`
+	fi
+    fi
+}
+
+#
+# Function that starts the daemon/service
+#
+do_start()
+{
+    # Return
+    #   0 if daemon has been started
+    #   1 if daemon was already running
+    #   2 if daemon could not be started ** NOT IMPLEMENTED (maybe check RETVAL before returning?) **
+
+    # check for daemon's pid
+    checkpid
+    ISPID=$?
+    # if no pid, then start
+    if [ $ISPID -eq 1  ]; then
+#	makelogdir
+#	touchlogfile
+	[ -n "$DEBUG" ] && echo "no pid, trying to start"
+	# using --quiet even though doesn't output anything without it
+	start-stop-daemon --start --quiet --pidfile $PIDFILE --chuid $USER \
+	    --background --make-pidfile --exec $DAEMON -- $DAEMON_ARGS
+	RETVAL=$? # when using --background, RETVAL may not mean anything at all
+	[ -n "$DEBUG" ] && echo "RETVAL="$RETVAL
+	sleep 5 # wait for few seconds
+	[ -n "$DEBUG" ] && pidstatus
+
+	# when using --background, RETVAL may not mean anything at all, so check for pid manually
+        # check for daemon's pid
+	checkpid
+	ISPID=$?
+        # if no pid, then daemon didn't start
+	if [ $ISPID -eq 1  ]; then
+	    [ -n "$DEBUG" ] && echo "no pid, daemon didn't start"
+	    return 2
+	else
+	    return 0
+	fi
+    # else there was a pid (and is already running)
+    else
+	[ -n "$DEBUG" ] && echo "found pid, already running"
+	return 1
+    fi	
+}
+
+#
+# Function that stops the daemon/service
+#
+do_stop()
+{
+    # openerp-web likes SIGINT for shutting down
+
+    # Return
+    #   0 if daemon has been stopped
+    #   1 if daemon was already stopped
+    #   2 if daemon could not be stopped
+    #   other if a failure occurred
+
+    # check for daemon's pid
+    checkpid
+    ISPID=$?
+    # if no pid, then daemon was already stopped
+    if [ $ISPID -eq 1  ]; then
+	[ -n "$DEBUG" ] && echo "no pid, daemon already stopped"
+	return 1
+    else
+	# try to stop daemon
+	# using --quiet even though doesn't output anything without it
+	start-stop-daemon --stop --signal INT --quiet --pidfile $PIDFILE
+	RETVAL=$?
+	[ -n "$DEBUG" ] && echo "tried to stop daemon"
+	[ -n "$DEBUG" ] && echo "RETVAL="$RETVAL
+	sleep 2 # wait for few seconds
+
+	# not using --retry, so only have to check for return value of 1
+	if [ $RETVAL -eq 1 ]; then
+	    # couldn't be stopped
+	    [ -n "$DEBUG" ] && echo "daemon couldn't be stopped"
+	    return 2
+	fi
+
+	# check for daemon's pid
+	checkpid
+	ISPID=$?
+        # if no pid, then daemon has stopped
+	if [ $ISPID -eq 1  ]; then
+	    [ -n "$DEBUG" ] && echo "no pid, daemon stopped"
+	    return 0
+	fi
+    fi
+}
+
+case "$1" in
+  start)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+	do_start
+	case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+	esac
+	;;
+  stop)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+	do_stop
+	case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+	esac
+	;;
+  status)
+       status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+       ;;
+  restart|force-reload)
+	log_daemon_msg "Restarting $DESC" "$NAME"
+	do_stop
+	case "$?" in
+	  0|1)
+		do_start
+		case "$?" in
+			0) log_end_msg 0 ;;
+			1) log_end_msg 1 ;; # Old process is still running
+			*) log_end_msg 1 ;; # Failed to start
+		esac
+		;;
+	  *)
+	  	# Failed to stop
+		log_end_msg 1
+		;;
+	esac
+	;;
+  *)
+	echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+	exit 3
+	;;
+esac
+
+:
