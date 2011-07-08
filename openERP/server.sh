@@ -62,10 +62,12 @@ sudo su -c "psql --command \"alter role openerp with password 'postgres';\"" pos
 
 # Inserting this information into the .openerp_serverrc file
 echo "********* Seeding the .openerp_serverrc file ********" | tee -a $LOGFILE
-if [ ! -f ~/.openerp_serverrc ] ; then
+if [ -f ~/.openerp_serverrc ] ; then
     echo "Found existing \".openerp_serverrc\" file; backing up" | tee -a $LOGFILE
     cd ~
     mv .openerp_serverrc .openerp_serverrc_orig
+else
+    echo "No \".openerp_serverrc\" file found; making one" | tee -a $LOGFILE
     touch .openerp_serverrc
     chmod 600 .openerp_serverrc
     echo "[options]" >> .openerp_serverrc

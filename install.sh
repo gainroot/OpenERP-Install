@@ -64,7 +64,7 @@ case "$1" in
 	    echo "User $USER doesn't exist, creating . . ."
 	    sudo adduser --system --group $USER
 	    RETVAL=$?
-	    if [ $RETVAL -ne 0]; then
+	    if [ $RETVAL -ne 0 ]; then
 		echo "User $USER failed to create, exiting . . ."
 		exit 1
 	    fi

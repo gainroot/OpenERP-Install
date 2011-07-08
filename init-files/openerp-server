@@ -78,7 +78,6 @@ makelogdir()
 	[ -n "$DEBUG" ] && echo "making logdir $LOGDIR"
 	sudo install -d -g $USER -m 1775 -o root $LOGDIR
 	RETVAL=$?
-	ls -al $LOGDIR
 	return $RETVAL
     fi
 }
