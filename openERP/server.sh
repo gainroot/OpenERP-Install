@@ -68,6 +68,7 @@ if [ -f ~/.openerp_serverrc ] ; then
     mv .openerp_serverrc .openerp_serverrc_orig
 else
     echo "No \".openerp_serverrc\" file found; making one" | tee -a $LOGFILE
+    cd ~
     touch .openerp_serverrc
     chmod 600 .openerp_serverrc
     echo "[options]" >> .openerp_serverrc
