@@ -18,7 +18,7 @@
 # From http://gainroot.co/solutions/openerp
 # Written by Jeffrey Gifford
 #
-# Version 0.9, 20110620
+# Version 0.92, 20110707
 #
 # Installs OpenERP 6.0.2 Server and PostgreSQL
 # According to instructions found at:
@@ -29,8 +29,9 @@
 # 2.6.32-28-generic-pae #55-Ubuntu SMP Mon Jan 10 22:34:08 UTC 2011 i686 GNU/Linux
 # Your mileage may vary.
 #
+# Called by ./OpenERP-Install/install.sh server
 # Usage:
-# ./install_openERP_server.sh
+# ./OpenERP-Install/openERP/server.sh
 # --------
 #
 # When finished with this script, start OpenERP Server by typing "openerp-server" (no quotes)
@@ -39,27 +40,30 @@
 #
 # --------
 # Below are some variables you can modify
-INSTALL_DIR=~
+STAGING_DIR=~
+LOGFILE=~/openERP_server_install.log
 #
 # That's all, stop editing!
 # ---------------------------------------------------------
 
 # Installing PostgreSQL package
-echo "************ Installing PostgreSQL package ************"
+echo "************ Installing PostgreSQL package **********" | tee -a $LOGFILE
+{
 sudo apt-get -y install postgresql
 # You might also need/want this
 sudo apt-get -y install postgresql-client
+} >> $LOGFILE
 
 # Installing PostgreSQL users
-echo "************  Installing PostgreSQL users  ************"
-sudo su -c "createuser --superuser openerp" postgres
+echo "************  Installing PostgreSQL users  **********" | tee -a $LOGFILE
+sudo su -c "createuser --superuser openerp" postgres >> $LOGFILE
 # psql -l
-sudo su -c "psql --command \"alter role openerp with password 'postgres';\"" postgres
+sudo su -c "psql --command \"alter role openerp with password 'postgres';\"" postgres >> $LOGFILE
 
 # Inserting this information into the .openerp_serverrc file
-echo "************ Seeding the .openerp_serverrc file  ************"
+echo "********* Seeding the .openerp_serverrc file ********" | tee -a $LOGFILE
 if [ ! -f ~/.openerp_serverrc ] ; then
-    echo "Found existing \".openerp_serverrc\" file; backing up"
+    echo "Found existing \".openerp_serverrc\" file; backing up" | tee -a $LOGFILE
     cd ~
     mv .openerp_serverrc .openerp_serverrc_orig
     touch .openerp_serverrc
@@ -71,7 +75,8 @@ if [ ! -f ~/.openerp_serverrc ] ; then
 fi
 
 # Install required Python packages
-echo "************   Installing Python packages  ************"
+echo "************   Installing Python packages  **********" | tee -a $LOGFILE
+{
 sudo apt-get -y install python-lxml
 sudo apt-get -y install python-mako
 sudo apt-get -y install python-egenix-mxdatetime
@@ -85,18 +90,22 @@ sudo apt-get -y install python-yaml
 sudo apt-get -y install python-vobject
 # May not need this next one, but I did
 sudo apt-get -y install python-setuptools
+} >> $LOGFILE
 
 # Get and install OpenERP server
-echo "************  Getting OpenERP Server 6.0.2 ************"
-cd $INSTALL_DIR
+echo "************  Getting OpenERP Server 6.0.2 **********" | tee -a $LOGFILE
+{
+cd $STAGING_DIR
 wget http://www.openerp.com/download/stable/source/openerp-server-6.0.2.tar.gz
 gzip -dc openerp-server-6.0.2.tar.gz | tar -xvf -
-cd $INSTALL_DIR/openerp-server-6.0.2
-echo "************   Installing OpenERP Server 6.0.2 ************"
-sudo python setup.py install
+cd $STAGING_DIR/openerp-server-6.0.2
+} >> $LOGFILE 2>&1
 
-echo "************ Done ************"
-echo "type \"openerp-server\" to start OpenERP Server"
+echo "********** Installing OpenERP Server 6.0.2 **********" | tee -a $LOGFILE
+sudo python setup.py install >> $LOGFILE
+
+echo "************************ Done ***********************" | tee -a $LOGFILE
+echo "type \"openerp-server\" to start OpenERP Server" | tee -a $LOGFILE
 
 # Run the Server
 # openerp-server

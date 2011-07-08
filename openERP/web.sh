@@ -18,7 +18,7 @@
 # From http://gainroot.co/solutions/openerp
 # Written by Jeffrey Gifford
 #
-# Version 0.9, 20110621
+# Version 0.92, 20110707
 #
 # Installs OpenERP 6.0.2 Web
 # According to instructions found at:
@@ -28,8 +28,9 @@
 # 2.6.32-28-generic-pae #55-Ubuntu SMP Mon Jan 10 22:34:08 UTC 2011 i686 GNU/Linux
 # Your mileage may vary.
 #
+# Called by ./OpenERP-Install/install.sh web
 # Usage:
-# ./install_openERP_web.sh
+# ./OpenERP-Install/openERP/web.sh
 #
 # You may need/want to install OpenERP Server before installing OpenERP Web (this script)
 # When finished with this script, start OpenERP Web by typing "openerp-web" (no quotes)
@@ -38,52 +39,65 @@
 #
 # --------
 # Below are some variables you can modify
-INSTALL_DIR=~
+STAGING_DIR=~
+LOGFILE=~/openERP_web_install.log
 #
 # That's all, stop editing!
 # ---------------------------------------------------------
 
 # Install required Python packages
-echo "************ Installing Python packages ************"
+echo "************ Installing Python packages *************" | tee -a $LOGFILE
+{
 sudo apt-get -y install python python-dev build-essential
 sudo apt-get -y install python-cherrypy
 sudo apt-get -y install python-setuptools
+} >> $LOGFILE
 
 # Get and install OpenERP Web
-echo "************  Getting OpenERP Web 6.0.2  ************"
-cd $INSTALL_DIR
+echo "************  Getting OpenERP Web 6.0.2  ************" | tee -a $LOGFILE
+{
+cd $STAGING_DIR
 wget http://www.openerp.com/download/stable/source/openerp-web-6.0.2.tar.gz
 gzip -dc openerp-web-6.0.2.tar.gz | tar -xvf -
+} >> $LOGFILE 2>&1
 ##
 ## Perhaps this next step (populate.sh) isn't necessary?
 ##
-echo "************   Installing Dependencies    ************"
+echo "************** Installing Dependencies **************" | tee -a $LOGFILE
 # Checks if file exists.
-if [ ! -d $INSTALL_DIR/openerp-web-6.0.2/lib ] ; then
-    echo "Directory \"$INSTALL_DIR/openerp-web-6.0.2/lib\" does not exist."
-    echo "Creating . . ."
-    sudo mkdir $INSTALL_DIR/openerp-web-6.0.2/lib
+if [ ! -d $STAGING_DIR/openerp-web-6.0.2/lib ] ; then
+    echo "Directory \"$STAGING_DIR/openerp-web-6.0.2/lib\" does not exist." | tee -a $LOGFILE
+    echo "Creating . . ." | tee -a $LOGFILE
+    sudo mkdir $STAGING_DIR/openerp-web-6.0.2/lib
 fi
-cd $INSTALL_DIR/openerp-web-6.0.2/lib
-if [ ! -f $INSTALL_DIR/openerp-web-6.0.2/lib/populate.sh ] ; then
-    echo "file \"$INSTALL_DIR/openerp-web-6.0.2/lib/populate.sh\" does not exist."
-    echo "Downloading . . ."
+cd $STAGING_DIR/openerp-web-6.0.2/lib
+if [ ! -f $STAGING_DIR/openerp-web-6.0.2/lib/populate.sh ] ; then
+    echo "file \"$STAGING_DIR/openerp-web-6.0.2/lib/populate.sh\" does not exist." | tee -a $LOGFILE
+    echo "Downloading . . ." | tee -a $LOGFILE
+{
     sudo wget http://bazaar.launchpad.net/~openerp/openobject-client-web/6.0/download/head:/populate.sh-20090420111152-vkdawd3ki04ekrac-2/populate.sh
     sudo chmod 755 ./populate.sh
+} >> $LOGFILE
 fi
-echo "************ Running ./populate.sh ******************"
+echo "************ Running ./populate.sh ******************" | tee -a $LOGFILE
+{
 sudo ./populate.sh
 ##
 ## Seems like we have to run this next step twice....
 ##
-echo "************ Installing OpenERP Web 6.0.2 ************"
-cd $INSTALL_DIR/openerp-web-6.0.2
-sudo python setup.py install
+sudo ./populate.sh
+} >> $LOGFILE
 
-echo "************ Done ************"
-echo "type \"openerp-web\" to start OpenERP Web"
-echo "point your browser to \"http://SERVERNAME:8080\""
-echo "where SERVERNAME is the network name (or IP address) of this host"
+echo "************ Installing OpenERP Web 6.0.2 ***********" | tee -a $LOGFILE
+cd $STAGING_DIR/openerp-web-6.0.2
+{
+sudo python setup.py install
+} >> $LOGFILE
+
+echo "************************ Done ***********************" | tee -a $LOGFILE
+echo "type \"openerp-web\" to start OpenERP Web" | tee -a $LOGFILE
+echo "point your browser to \"http://SERVERNAME:8080\"" | tee -a $LOGFILE
+echo "where SERVERNAME is the network name (or IP address) of this host" | tee -a $LOGFILE
 
 # Run OpenERP Web
 # openerp-web
