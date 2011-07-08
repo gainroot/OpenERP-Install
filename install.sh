@@ -54,6 +54,9 @@ USER=openerp
 
 case "$1" in
   server)
+	# set LOGFILE
+	LOGFILE=~/openERP_server_install.log
+
 	# Install OpenERP Server
 	$BASE/openERP/server.sh
 
@@ -90,16 +93,24 @@ case "$1" in
 	if [ $RETVAL -ne 0 ]; then
 	    echo "Failed to propagate openerp-server init file"
 	fi
-	echo "Done. Please check above messages for errors."
+	echo "Done. Please check above messages and/or $LOGFILE for errors."
+	echo "If none found, start OpenERP Server by typing:"
+	echo "sudo /etc/init.d/openerp-server start"
 	;;
   client)
+	# set LOGFILE
+	LOGFILE=~/openERP_client_install.log
+
 	# Install OpenERP Client
 	$BASE/openERP/client.sh
 
 	echo "Done. Please check above messages for errors."
 	;;
   web)
-	# Install
+	echo $1
+	# set LOGFILE
+	LOGFILE=~/openERP_web_install.log
+
 	# Install OpenERP Web
 	$BASE/openERP/web.sh
 
@@ -129,7 +140,9 @@ case "$1" in
 	if [ $RETVAL -ne 0 ]; then
 	    echo "Failed to propagate openerp-web init file"
 	fi
-	echo "Done. Please check above messages for errors."
+	echo "Done. Please check above messages and/or $LOGFILE for errors."
+	echo "If none found, start OpenERP Web by typing:"
+	echo "sudo /etc/init.d/openerp-web start"
 	;;
   *)
 	echo "Usage: $SCRIPTNAME {server|client|web}" >&2
