@@ -52,21 +52,23 @@ echo "************ Installing PostgreSQL package **********" | tee -a $LOGFILE
 sudo apt-get -y install postgresql
 # You might also need/want this
 sudo apt-get -y install postgresql-client
-} >> $LOGFILE
+} >> $LOGFILE 2>&1
 
 # Installing PostgreSQL users
 echo "************  Installing PostgreSQL users  **********" | tee -a $LOGFILE
 sudo su -c "createuser --superuser openerp" postgres >> $LOGFILE
-# psql -l
 sudo su -c "psql --command \"alter role openerp with password 'postgres';\"" postgres >> $LOGFILE
 
 # Inserting this information into the .openerp_serverrc file
 echo "********* Seeding the .openerp_serverrc file ********" | tee -a $LOGFILE
 if [ -f ~/.openerp_serverrc ] ; then
+    {
     echo "Found existing \".openerp_serverrc\" file; backing up" | tee -a $LOGFILE
     cd ~
     mv .openerp_serverrc .openerp_serverrc_orig
+    } >> $LOGFILE 2>&1
 else
+    {
     echo "No \".openerp_serverrc\" file found; making one" | tee -a $LOGFILE
     cd ~
     touch .openerp_serverrc
@@ -75,6 +77,7 @@ else
     echo "db_user = openerp" >> .openerp_serverrc
     echo "db_password = postgres" >> .openerp_serverrc
     echo "db_host = localhost" >> .openerp_serverrc
+    } >> $LOGFILE 2>&1
 fi
 
 # Install required Python packages
@@ -93,7 +96,7 @@ sudo apt-get -y install python-yaml
 sudo apt-get -y install python-vobject
 # May not need this next one, but I did
 sudo apt-get -y install python-setuptools
-} >> $LOGFILE
+} >> $LOGFILE 2>&1
 
 # Get and install OpenERP server
 echo "************  Getting OpenERP Server 6.0.2 **********" | tee -a $LOGFILE
@@ -105,10 +108,10 @@ cd $STAGING_DIR/openerp-server-6.0.2
 } >> $LOGFILE 2>&1
 
 echo "********** Installing OpenERP Server 6.0.2 **********" | tee -a $LOGFILE
-sudo python setup.py install >> $LOGFILE
+sudo python setup.py install >> $LOGFILE 2>&1
 
 echo "************************ Done ***********************" | tee -a $LOGFILE
-echo "type \"openerp-server\" to start OpenERP Server" | tee -a $LOGFILE
+echo "type \"openerp-server\" to manually start OpenERP Server" | tee -a $LOGFILE
 
 # Run the Server
 # openerp-server
