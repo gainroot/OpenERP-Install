@@ -45,7 +45,7 @@ Your mileage may vary.
 
 install.sh
 __________
-While some of the individual scripts are useful, all are accessible through
+While some of the scripts are useful individually, all are accessible through
 install.sh
 
 Usage: install.sh [server|client|web]
@@ -155,7 +155,6 @@ To-Do
 -----
 
 Each install file spits all output (stderr and stout) to a named logfile.
-OpenERP Server and OpenERP Web restart after reboots
 OpenERP Server and OpenERP Web log files are properly stored, rotated & maintained
 
 ===
