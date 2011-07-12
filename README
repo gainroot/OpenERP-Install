@@ -3,7 +3,7 @@ OpenERP-Install
 
 	Introduction
 	Requirements
-	install.sh
+	install
 	Starting & Stopping
 	openERP
 	  server.sh
@@ -43,14 +43,14 @@ Check yours with 'uname -rvmo'
 Your mileage may vary.
 
 
-install.sh
+install
 __________
 While some of the scripts are useful individually, all are accessible through
-install.sh
+install
 
-Usage: install.sh [server|client|web]
+Usage: install [server|client|web]
 
-install.sh server
+install server
 +++++++++++++++++
 Installs PostgreSQL and the OpenERP Server on your host.
 Creates a Postgres superuser "openerp" with password of "postgres" to get you
@@ -63,7 +63,7 @@ Adds openERP Server to the boot sequence as a managed service.
 Creates a log file in your home directory. You can watch it by typing:
 	tail -f ~/openERP_server_install.log
 
-install.sh client
+install client
 +++++++++++++++++
 Installs the OpenERP Client on your host.
 One of the first things needed will be to create a database:
@@ -72,7 +72,7 @@ File -> Databases -> New database
 Creates a log file in your home directory. You can watch it by typing:
 	tail -f ~/openERP_client_install.log
 
-install.sh web
+install web
 +++++++++++++++++
 Install the OpenERP Web client/server on your host.
 (It acts like a client to the OpenERP Server and yet it serves web pages.)
@@ -111,27 +111,27 @@ Log file:	none (yet)
 
 openERP
 -------
-The files in this directory are called by install.sh to do the actual
+The files in this directory are called by install to do the actual
 installation.
 
 server.sh
 +++++++++
-Corresponds to ./install.sh server
+Corresponds to ./install server
 Also calls code to install /etc/init.d/openerp-server
 
 client.sh
 +++++++++
-Corresponds to ./install.sh client
+Corresponds to ./install client
 
 web.sh
 ++++++
-Corresponds to ./install.sh web
+Corresponds to ./install web
 Also calls code to install /etc/init.d/openerp-web
 
 
 init-files
 ----------
-The following files are called by install.sh to add openerp-server
+The following files are called by install to add openerp-server
 and openerp-web to the boot sequence as managed services.
 
 openerp-server
