@@ -77,7 +77,7 @@ if [ ! -f $STAGING_DIR/openerp-web-6.0.2/lib/populate.sh ] ; then
 {
     sudo wget http://bazaar.launchpad.net/~openerp/openobject-client-web/6.0/download/head:/populate.sh-20090420111152-vkdawd3ki04ekrac-2/populate.sh
     sudo chmod 755 ./populate.sh
-} >> $LOGFILE
+} } >> $LOGFILE 2>&1
 fi
 echo "************ Running ./populate.sh ******************" | tee -a $LOGFILE
 {
