@@ -30,7 +30,7 @@ NAME=openerp-server
 DAEMON=/usr/local/bin/$NAME
 PIDFILE=/var/run/$NAME.pid
 LOGDIR=/var/log/openerp
-LOGFILE=$LOGDIR/$NAME.log
+LOGFILE1=$LOGDIR/$NAME.log
 # Specify an alternate config file (Default: ~/.openerp-serverrc)
 CONFIGFILE="/etc/$NAME.cfg"
 # Let daemon handle its own logging
@@ -78,10 +78,23 @@ makelogdir()
 	[ -n "$DEBUG" ] && echo "making logdir $LOGDIR"
 	sudo install -d -g $USER -m 1775 -o root $LOGDIR
 	RETVAL=$?
+	[ -n "$DEBUG" ] && echo `ls -al $LOGDIR`
 	return $RETVAL
     fi
 }
 
+touchlogfile()
+{
+    LOGFILE=$1
+    # touch the logfile if doesn't exist
+    if [ ! -f "$LOGFILE" ]; then
+	[ -n "$DEBUG" ] && echo "logfile doesn't exist, touching"
+	touch $LOGFILE
+	chmod 644 $LOGFILE
+	chown $USER.$USER $LOGFILE
+	[ -n "$DEBUG" ] && echo `ls -al $LOGFILE`
+    fi
+}
 
 #
 # Function that checks for daemon/service pidfile
@@ -117,7 +130,7 @@ pidstatus()
     checkpid
     ISPID=$?
     # if no pid, then daemon was stopped
-    if [ $ISPID -eq 1  ]; then
+    if [ $ISPID -eq 1 ]; then
 	[ -n "$DEBUG" ] && echo "no pid, daemon stopped"
     else
 	[ -n "$DEBUG" ] && echo "found pid"
@@ -143,8 +156,10 @@ do_start()
     checkpid
     ISPID=$?
     # if no pid, then start
-    if [ $ISPID -eq 1  ]; then
+    if [ $ISPID -eq 1 ]; then
 	makelogdir
+	touchlogfile $LOGFILE1
+	#
 	[ -n "$DEBUG" ] && echo "no pid, trying to start"
 	# using --quiet even though doesn't output anything without it
 	start-stop-daemon --start --quiet --pidfile $PIDFILE --chuid $USER \
@@ -159,7 +174,7 @@ do_start()
 	checkpid
 	ISPID=$?
         # if no pid, then daemon didn't start
-	if [ $ISPID -eq 1  ]; then
+	if [ $ISPID -eq 1 ]; then
 	    [ -n "$DEBUG" ] && echo "no pid, daemon didn't start"
 	    return 2
 	else
@@ -177,7 +192,7 @@ do_start()
 #
 do_stop()
 {
-    # openerp-server likes SIGINT for shutting down
+    # NAME likes SIGINT for shutting down
 
     # Return
     #   0 if daemon has been stopped
@@ -189,7 +204,7 @@ do_stop()
     checkpid
     ISPID=$?
     # if no pid, then daemon was already stopped
-    if [ $ISPID -eq 1  ]; then
+    if [ $ISPID -eq 1 ]; then
 	[ -n "$DEBUG" ] && echo "no pid, daemon already stopped"
 	return 1
     else
@@ -212,7 +227,7 @@ do_stop()
 	checkpid
 	ISPID=$?
         # if no pid, then daemon has stopped
-	if [ $ISPID -eq 1  ]; then
+	if [ $ISPID -eq 1 ]; then
 	    [ -n "$DEBUG" ] && echo "no pid, daemon stopped"
 	    return 0
 	fi

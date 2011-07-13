@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 ### BEGIN INIT INFO
 # Provides: openerp-web
@@ -29,8 +29,16 @@ DESC="OpenERP Web"
 NAME=openerp-web
 DAEMON=/usr/local/bin/$NAME
 PIDFILE=/var/run/$NAME.pid
+# Make sure these two LOGFILE entries match what's in CONFIGFILE
+LOGDIR=/var/log/openerp
+LOGFILE1=$LOGDIR/web-access.log
+LOGFILE2=$LOGDIR/web-error.log
+# Specify an alternate config file (Default: UNKNOWN)
+CONFIGFILE="/etc/$NAME.cfg"
+# Let daemon handle its own logging (in CONFIGFILE)
+DAEMON_ARGS="--config=$CONFIGFILE"
+
 SCRIPTNAME=/etc/init.d/$NAME
-DAEMON_ARGS=""
 
 # Specify the user name
 USER="openerp"
@@ -44,10 +52,10 @@ if [ $RETVAL -ne 0 ]; then
 fi
 
 # Exit if the package is not installed
-if [ ! -x "$DAEMON" ]; then
-    log_end_msg 1
-    exit 1
-fi
+[ -x "$DAEMON" ] || exit 0
+
+# Exit if the config file is not installed
+[ -f "$CONFIGFILE" ] || exit 0
 
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh
@@ -70,19 +78,20 @@ makelogdir()
 	[ -n "$DEBUG" ] && echo "making logdir $LOGDIR"
 	sudo install -d -g $USER -m 1775 -o root $LOGDIR
 	RETVAL=$?
-	ls -al $LOGDIR
+	[ -n "$DEBUG" ] && echo `ls -al $LOGDIR`
 	return $RETVAL
     fi
 }
 
 touchlogfile()
 {
+    LOGFILE=$1
     # touch the logfile if doesn't exist
     if [ ! -f "$LOGFILE" ]; then
 	[ -n "$DEBUG" ] && echo "logfile doesn't exist, touching"
 	touch $LOGFILE
 	chmod 644 $LOGFILE
-	chown root.$USER $LOGFILE
+	chown $USER.$USER $LOGFILE
 	[ -n "$DEBUG" ] && echo `ls -al $LOGFILE`
     fi
 }
@@ -121,7 +130,7 @@ pidstatus()
     checkpid
     ISPID=$?
     # if no pid, then daemon was stopped
-    if [ $ISPID -eq 1  ]; then
+    if [ $ISPID -eq 1 ]; then
 	[ -n "$DEBUG" ] && echo "no pid, daemon stopped"
     else
 	[ -n "$DEBUG" ] && echo "found pid"
@@ -147,9 +156,11 @@ do_start()
     checkpid
     ISPID=$?
     # if no pid, then start
-    if [ $ISPID -eq 1  ]; then
-#	makelogdir
-#	touchlogfile
+    if [ $ISPID -eq 1 ]; then
+	makelogdir
+	touchlogfile $LOGFILE1
+	touchlogfile $LOGFILE2
+	#
 	[ -n "$DEBUG" ] && echo "no pid, trying to start"
 	# using --quiet even though doesn't output anything without it
 	start-stop-daemon --start --quiet --pidfile $PIDFILE --chuid $USER \
@@ -164,7 +175,7 @@ do_start()
 	checkpid
 	ISPID=$?
         # if no pid, then daemon didn't start
-	if [ $ISPID -eq 1  ]; then
+	if [ $ISPID -eq 1 ]; then
 	    [ -n "$DEBUG" ] && echo "no pid, daemon didn't start"
 	    return 2
 	else
@@ -182,7 +193,7 @@ do_start()
 #
 do_stop()
 {
-    # openerp-web likes SIGINT for shutting down
+    # NAME likes SIGINT for shutting down
 
     # Return
     #   0 if daemon has been stopped
@@ -194,7 +205,7 @@ do_stop()
     checkpid
     ISPID=$?
     # if no pid, then daemon was already stopped
-    if [ $ISPID -eq 1  ]; then
+    if [ $ISPID -eq 1 ]; then
 	[ -n "$DEBUG" ] && echo "no pid, daemon already stopped"
 	return 1
     else
@@ -217,7 +228,7 @@ do_stop()
 	checkpid
 	ISPID=$?
         # if no pid, then daemon has stopped
-	if [ $ISPID -eq 1  ]; then
+	if [ $ISPID -eq 1 ]; then
 	    [ -n "$DEBUG" ] && echo "no pid, daemon stopped"
 	    return 0
 	fi

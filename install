@@ -87,9 +87,11 @@ create_user()
 install_config_file()
 {
     FILE=$1
+    [ -n "$DEBUG" ] && echo $FILE
 
     # Install config file
     sudo install -b -c -g $USER -m $CONFIG_MODE -o root $BASE/init-files/$FILE /etc/$FILE
+    # Remember, -b creates backup files with a tilde suffix: FILE~
     RETVAL=$?
     if [ $RETVAL -ne 0 ]; then
 	echo "Failed to install config file: $FILE"
@@ -103,8 +105,11 @@ install_config_file()
 install_init_file()
 {
     FILE=$1
+    [ -n "$DEBUG" ] && echo $FILE
+
     # install init file
     sudo install -b -c -g root -m $INIT_MODE -o root $BASE/init-files/$FILE /etc/init.d/$FILE
+    # Remember, -b creates backup files with a tilde suffix: FILE~
     RETVAL=$?
     if [ $RETVAL -ne 0 ]; then
 	echo "Failed to install init file: $FILE"
@@ -117,6 +122,8 @@ install_init_file()
 link_init_file()
 {
     FILE=$1
+    [ -n "$DEBUG" ] && echo $FILE
+
     sudo update-rc.d $FILE defaults
     RETVAL=$?
     if [ $RETVAL -ne 0 ]; then
