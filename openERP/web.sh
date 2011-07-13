@@ -51,7 +51,7 @@ echo "************ Installing Python packages *************" | tee -a $LOGFILE
 sudo apt-get -y install python python-dev build-essential
 sudo apt-get -y install python-cherrypy
 sudo apt-get -y install python-setuptools
-} >> $LOGFILE
+} >> $LOGFILE 2>&1
 
 # Get and install OpenERP Web
 echo "************  Getting OpenERP Web 6.0.2  ************" | tee -a $LOGFILE
@@ -77,7 +77,7 @@ if [ ! -f $STAGING_DIR/openerp-web-6.0.2/lib/populate.sh ] ; then
 {
     sudo wget http://bazaar.launchpad.net/~openerp/openobject-client-web/6.0/download/head:/populate.sh-20090420111152-vkdawd3ki04ekrac-2/populate.sh
     sudo chmod 755 ./populate.sh
-} } >> $LOGFILE 2>&1
+} >> $LOGFILE 2>&1
 fi
 echo "************ Running ./populate.sh ******************" | tee -a $LOGFILE
 {
@@ -86,13 +86,13 @@ sudo ./populate.sh
 ## Seems like we have to run this next step twice....
 ##
 sudo ./populate.sh
-} >> $LOGFILE
+} >> $LOGFILE 2>&1
 
 echo "************ Installing OpenERP Web 6.0.2 ***********" | tee -a $LOGFILE
 cd $STAGING_DIR/openerp-web-6.0.2
 {
 sudo python setup.py install
-} >> $LOGFILE
+} >> $LOGFILE 2>&1
 
 echo "************************ Done ***********************" | tee -a $LOGFILE
 echo "type \"openerp-web\" to start OpenERP Web" | tee -a $LOGFILE
