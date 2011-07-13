@@ -39,12 +39,16 @@
 # Below are some variables you can modify
 SCRIPTNAME=$0
 BASE=`dirname $SCRIPTNAME`
-CONFIGFILE=$BASE/init-files/openerp-server.cfg
-CONFIGDEST=/etc/openerp-server.cfg
-SERVERINIT=openerp-server
-WEBINIT=openerp-web
-INITFILES=$BASE/init-files
-#DEBUG="true"
+#SERVER_CONFIGFILE=$BASE/init-files/openerp-server.cfg
+#SERVER_CONFIGDEST=/etc/openerp-server.cfg
+SERVER=openerp-server
+#WEB_CONFIGFILE=$BASE/init-files/openerp-web.cfg
+#WEB_CONFIGDEST=/etc/openerp-web.cfg
+CONFIG_MODE=640
+INIT_MODE=755
+WEB=openerp-web
+#INITFILES=$BASE/init-files
+DEBUG="true"
 USER=openerp
 # That's all, stop editing!
 # ---------------------------------------------------------
@@ -52,15 +56,13 @@ USER=openerp
 [ -n "$DEBUG" ] && echo "BASE=$BASE"
 [ -n "$DEBUG" ] && echo `ls -l $BASE/init-files/openerp-server`
 
-case "$1" in
-  server)
-	# set LOGFILE
-	LOGFILE=~/openERP_server_install.log
-
-	# Install OpenERP Server
-	$BASE/openERP/server.sh
-
-	# try to create USER, exit if fails
+#
+# Function that creates a user if needed
+#
+create_user()
+{
+    if [ -n $USER ]; then
+        # try to create USER; exit if fails
 	/usr/bin/id $USER >/dev/null 2>&1
 	RETVAL=$?
 	if [ $RETVAL -ne 0 ]; then
@@ -72,74 +74,111 @@ case "$1" in
 		exit 1
 	    fi
 	fi
+    else
+	echo "No user provided, exiting . . ."
+	exit 1
+    fi
+}
 
-	# Install config file
-	sudo install -b -c -g $USER -m 640 -o root $CONFIGFILE $CONFIGDEST
-	RETVAL=$?
-	if [ $RETVAL -ne 0 ]; then
-	    echo "Failed to install config file"
-	fi
+#
+# Function to install config file
+# Takes one argument, the name of the config FILE
+#
+install_config_file()
+{
+    FILE=$1
 
-	# Install openerp-server init file
-	sudo install -b -c -g root -m 755 -o root $INITFILES/$SERVERINIT /etc/init.d/$SERVERINIT
-	RETVAL=$?
-	if [ $RETVAL -ne 0 ]; then
-	    echo "Failed to install openerp-server init file"
-	fi
+    # Install config file
+    sudo install -b -c -g $USER -m $CONFIG_MODE -o root $BASE/init-files/$FILE /etc/$FILE
+    RETVAL=$?
+    if [ $RETVAL -ne 0 ]; then
+	echo "Failed to install config file: $FILE"
+    fi
+}
+
+#
+# Function to install init file
+# Takes one argument, the name of the init FILE
+#
+install_init_file()
+{
+    FILE=$1
+    # install init file
+    sudo install -b -c -g root -m $INIT_MODE -o root $BASE/init-files/$FILE /etc/init.d/$FILE
+    RETVAL=$?
+    if [ $RETVAL -ne 0 ]; then
+	echo "Failed to install init file: $FILE"
+    fi
+}
+
+#
+# Function to link init file into correct RC levels
+#
+link_init_file()
+{
+    FILE=$1
+    sudo update-rc.d $FILE defaults
+    RETVAL=$?
+    if [ $RETVAL -ne 0 ]; then
+	echo "Failed to propagate init file: $FILE"
+    fi
+}
+
+case "$1" in
+  server)
+	# set LOGFILE
+	LOGFILE=~/openERP_$1_install.log
+
+	# install OpenERP Server
+	$BASE/openERP/server.sh #$LOGFILE
+
+	# create the openerp user
+	create_user #$USER
+
+	# install the config file in /etc
+	install_config_file $SERVER.cfg
+
+	# install the init file in /etc/rc.d
+	install_init_file $SERVER
 
 	# Propagate openerp-server init file into correct RC levels
-	sudo update-rc.d openerp-server defaults
-	RETVAL=$?
-	if [ $RETVAL -ne 0 ]; then
-	    echo "Failed to propagate openerp-server init file"
-	fi
+	link_init_file $SERVER
+
+	# Done
 	echo "Done. Please check above messages and/or $LOGFILE for errors."
 	echo "If none found, start OpenERP Server by typing:"
 	echo "sudo /etc/init.d/openerp-server start"
 	;;
   client)
 	# set LOGFILE
-	LOGFILE=~/openERP_client_install.log
+	LOGFILE=~/openERP_$1_install.log
 
 	# Install OpenERP Client
-	$BASE/openERP/client.sh
+	$BASE/openERP/client.sh #$LOGFILE
 
+	# Done
 	echo "Done. Please check above messages for errors."
 	;;
   web)
-	echo $1
 	# set LOGFILE
-	LOGFILE=~/openERP_web_install.log
+	LOGFILE=~/openERP_$1_install.log
 
-	# Install OpenERP Web
-	$BASE/openERP/web.sh
+	# install OpenERP Web
+	$BASE/openERP/web.sh #$LOGFILE
 
-	# try to create USER, exit if fails
-	/usr/bin/id $USER >/dev/null 2>&1
-	RETVAL=$?
-	if [ $RETVAL -ne 0 ]; then
-	    echo "User $USER doesn't exist, creating . . ."
-	    sudo adduser --system --group $USER
-	    RETVAL=$?
-	    if [ $RETVAL -ne 0]; then
-		echo "User $USER failed to create, exiting . . ."
-		exit 1
-	    fi
-	fi
+	# create the openerp user
+	create_user #$USER
 
-	# Install openerp-web init file
-	sudo install -b -c -g root -m 755 -o root $INITFILES/$WEBINIT /etc/init.d/$WEBINIT
-	RETVAL=$?
-	if [ $RETVAL -ne 0 ]; then
-	    echo "Failed to install openerp-web init file"
-	fi
+	# install the config file in /etc
+	install_config_file $WEB.cfg
 
-	# Propagate openerp-web init file into correct RC levels
-	sudo update-rc.d openerp-web defaults
-	RETVAL=$?
-	if [ $RETVAL -ne 0 ]; then
-	    echo "Failed to propagate openerp-web init file"
-	fi
+	# install the init file in /etc/rc.d
+	install_init_file $WEB
+
+	# Propagate openerp-server init file into correct RC levels
+	link_init_file $WEB
+
+	# Done
 	echo "Done. Please check above messages and/or $LOGFILE for errors."
 	echo "If none found, start OpenERP Web by typing:"
 	echo "sudo /etc/init.d/openerp-web start"
