@@ -144,7 +144,9 @@ Depends on PostgreSQL
 See Usage above
 
 openerp-server.cfg
+
 ++++++++++++++++++
+
 Gets installed as: `/etc/openerp-server.cfg`
 
 openerp-web
