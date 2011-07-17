@@ -22,13 +22,14 @@ Currently installs OpenERP 6.0.2
 These install files are not intended to be elegant, merely functional.
 The impetus for writing these files was the sheer number of manual steps
 required in
-http://doc.openerp.com/v6.0/install/index.html#installation-link
+[this link.](http://doc.openerp.com/v6.0/install/index.html#installation-link)
 The installation resulting from these files would be good for a demo or
 proof-of-concept environment but would not be recommended for production.
 
-These scripts are maintained at https://github.com/JGifford/OpenERP-Install
+These scripts are maintained at the [Github repo](https://github.com/JGifford/OpenERP-Install)
 They are released under a GNU General Public License. If you have improvements,
 please contribute via github.
+
 
 For more information, please visit http://gainroot.co/solutions/openerp
 
