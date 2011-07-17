@@ -138,14 +138,16 @@ The following files are called by install.sh to add openerp-server
 and openerp-web to the boot sequence as managed services.
 
 openerp-server
-++++++++++++++
+
+-----------------
+
 Gets installed as: `/etc/init.d/openerp-server`
 Depends on PostgreSQL
 See Usage above
 
-openerp-server.cfg
+`openerp-server.cfg`
 
-++++++++++++++++++
+-----------------
 
 Gets installed as: `/etc/openerp-server.cfg`
 
