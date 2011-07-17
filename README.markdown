@@ -37,8 +37,10 @@ For more information, please visit http://gainroot.co/solutions/openerp
 Requirements
 ------------
 I tested with two fairly vanilla Ubuntu 10.04 LTS installations.
-2.6.32-28-generic-pae #55-Ubuntu SMP Mon Jan 10 22:34:08 UTC 2011 i686 GNU/Linux
-2.6.32-32-generic #62-Ubuntu SMP Wed Apr 20 21:54:21 UTC 2011 i686 GNU/Linux
+
+`2.6.32-28-generic-pae #55-Ubuntu SMP Mon Jan 10 22:34:08 UTC 2011 i686 GNU/Linux`
+
+`2.6.32-32-generic #62-Ubuntu SMP Wed Apr 20 21:54:21 UTC 2011 i686 GNU/Linux`
 
 Check yours with 'uname -rvmo'
 Your mileage may vary.
@@ -49,20 +51,20 @@ __________
 While some of the scripts are useful individually, all are accessible through
 install.sh
 
-Usage: install.sh [server|client|web]
+`Usage: install.sh [server|client|web]`
 
 install.sh server
 +++++++++++++++++
 Installs PostgreSQL and the OpenERP Server on your host.
-Creates a Postgres superuser "openerp" with password of "postgres" to get you
-started. These settings (db_user, db_password and db_host) are added as options
-to the OpenERP Server rc file, ".openerp_serverrc" and also
-to /etc/openerp-server.cfg
-Creates a system user "openerp" to run the openerp-server
+Creates a Postgres superuser `openerp` with password of `postgres` to get you
+started. These settings (`db_user`, `db_password` and `db_host`) are added as options
+to the OpenERP Server rc file, `.openerp_serverrc` and also
+to `/etc/openerp-server.cfg`
+Creates a system user `openerp` to run the openerp-server
 Adds openERP Server to the boot sequence as a managed service.
 
 Creates a log file in your home directory. You can watch it by typing:
-	tail -f ~/openERP_server_install.log
+	`tail -f ~/openERP_server_install.log`
 
 install.sh client
 +++++++++++++++++
@@ -137,18 +139,18 @@ and openerp-web to the boot sequence as managed services.
 
 openerp-server
 ++++++++++++++
-Gets installed as: /etc/init.d/openerp-server
+Gets installed as: `/etc/init.d/openerp-server`
 Depends on PostgreSQL
 See Usage above
 
 openerp-server.cfg
 ++++++++++++++++++
-Gets installed as: /etc/openerp-server.cfg
+Gets installed as: `/etc/openerp-server.cfg`
 
 openerp-web
 +++++++++++
-Gets installed as: /etc/init.d/openerp-web
-Depends on openerp-server
+Gets installed as: `/etc/init.d/openerp-web`
+Depends on `openerp-server`
 See Usage above
 
 
