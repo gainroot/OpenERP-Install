@@ -114,22 +114,26 @@ Log file:	none (yet)
 
 openERP
 -------
-The files in this directory are called by install.sh to do the actual
+The files in this directory are called by `install.sh` to do the actual
 installation.
 
-server.sh
-+++++++++
-Corresponds to ./install.sh server
+`server.sh`
+
+
+Corresponds to `./install.sh server`.
+
 Also calls code to install /etc/init.d/openerp-server
 
 client.sh
-+++++++++
-Corresponds to ./install.sh client
+
+
+Corresponds to `./install.sh client`
 
 web.sh
-++++++
-Corresponds to ./install.sh web
-Also calls code to install /etc/init.d/openerp-web
+
+
+Corresponds to `./install.sh web`
+Also calls code to install `/etc/init.d/openerp-web`
 
 
 init-files
@@ -152,7 +156,8 @@ See Usage above
 Gets installed as: `/etc/openerp-server.cfg`
 
 openerp-web
-+++++++++++
+
+
 Gets installed as: `/etc/init.d/openerp-web`
 Depends on `openerp-server`
 See Usage above
