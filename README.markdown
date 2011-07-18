@@ -54,12 +54,18 @@ install.sh
 `Usage: install.sh [server|client|web]`
 
 install.sh server
-+++++++++++++++++
+_________________
+
 Installs PostgreSQL and the OpenERP Server on your host.
+
+
 Creates a Postgres superuser `openerp` with password of `postgres` to get you
-started. These settings (`db_user`, `db_password` and `db_host`) are added as options
+started. 
+
+These settings (`db_user`, `db_password` and `db_host`) are added as options
 to the OpenERP Server rc file, `.openerp_serverrc` and also
 to `/etc/openerp-server.cfg`
+
 Creates a system user `openerp` to run the openerp-server
 Adds openERP Server to the boot sequence as a managed service.
 
@@ -67,7 +73,8 @@ Creates a log file in your home directory. You can watch it by typing:
 	`tail -f ~/openERP_server_install.log`
 
 install.sh client
-+++++++++++++++++
+_________________
+
 Installs the OpenERP Client on your host.
 One of the first things needed will be to create a database:
 File -> Databases -> New database
