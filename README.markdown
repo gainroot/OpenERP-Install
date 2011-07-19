@@ -53,7 +53,7 @@ install.sh
 
 `Usage: install.sh [server|client|web]`
 
-install.sh server
+### install.sh server
 _________________
 
 Installs PostgreSQL and the OpenERP Server on your host.
@@ -72,7 +72,7 @@ Adds openERP Server to the boot sequence as a managed service.
 Creates a log file in your home directory. You can watch it by typing:
 	`tail -f ~/openERP_server_install.log`
 
-install.sh client
+### install.sh client
 _________________
 
 Installs the OpenERP Client on your host.
@@ -82,7 +82,7 @@ File -> Databases -> New database
 Creates a log file in your home directory. You can watch it by typing:
 	tail -f ~/openERP_client_install.log
 
-install.sh web
+### install.sh web
 +++++++++++++++++
 Install the OpenERP Web client/server on your host.
 (It acts like a client to the OpenERP Server and yet it serves web pages.)
@@ -91,7 +91,7 @@ Adds openERP Web to the boot sequence as a managed service.
 Creates a log file in your home directory. You can watch it by typing:
 	`tail -f ~/openERP_web_install.log`
 
-Starting & Stopping
+### Starting & Stopping
 -------------------
 
 OpenERP Server
