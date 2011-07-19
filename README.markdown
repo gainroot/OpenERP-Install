@@ -89,20 +89,20 @@ Install the OpenERP Web client/server on your host.
 Adds openERP Web to the boot sequence as a managed service.
 
 Creates a log file in your home directory. You can watch it by typing:
-	tail -f ~/openERP_web_install.log
+	`tail -f ~/openERP_web_install.log`
 
 Starting & Stopping
 -------------------
 
 OpenERP Server
-++++++++++++++
+______________
 
 Usage:		sudo /etc/init.d/openerp-server start|stop|restart
 Config file:	/etc/openerp-server.cfg
 Log file:	/var/log/openerp/openerp-server.log
 
 OpenERP Client
-++++++++++++++
+______________
 
 Usage:		/usr/local/bin/openerp-client
 Config file:	~/.openerprc
@@ -113,14 +113,16 @@ Notes:		Make certain you're connected to a windowing environment
 		File -> Databases -> New database
 
 OpenERP Web
-++++++++++++++
+___________ 
 
 Usage:		sudo /etc/init.d/openerp-web start|stop|restart
 Config file:	none
 Log file:	none (yet)
 
 openERP
--------
+_________
+
+
 The files in this directory are called by `install.sh` to do the actual
 installation.
 
