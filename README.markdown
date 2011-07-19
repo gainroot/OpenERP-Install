@@ -93,16 +93,13 @@ Creates a log file in your home directory. You can watch it by typing:
 
 ### Starting & Stopping
 -------------------
-
-OpenERP Server
-______________
+#### OpenERP Server
 
 Usage:		sudo /etc/init.d/openerp-server start|stop|restart
 Config file:	/etc/openerp-server.cfg
 Log file:	/var/log/openerp/openerp-server.log
 
-OpenERP Client
-______________
+#### OpenERP Client
 
 Usage:		/usr/local/bin/openerp-client
 Config file:	~/.openerprc
@@ -112,47 +109,44 @@ Notes:		Make certain you're connected to a windowing environment
 		One of the first things needed will be to create a database:
 		File -> Databases -> New database
 
-OpenERP Web
-___________ 
+#### OpenERP Web
 
 Usage:		sudo /etc/init.d/openerp-web start|stop|restart
 Config file:	none
 Log file:	none (yet)
 
-openERP
-_________
+#### openERP
 
 
 The files in this directory are called by `install.sh` to do the actual
 installation.
 
-`server.sh`
+#### `server.sh`
 
 
 Corresponds to `./install.sh server`.
 
 Also calls code to install /etc/init.d/openerp-server
 
-client.sh
+#### client.sh
 
 
 Corresponds to `./install.sh client`
 
-web.sh
+#### web.sh
 
 
 Corresponds to `./install.sh web`
 Also calls code to install `/etc/init.d/openerp-web`
 
 
-init-files
-----------
+#### init-files
+
 The following files are called by install.sh to add openerp-server
 and openerp-web to the boot sequence as managed services.
 
-openerp-server
+#### openerp-server
 
------------------
 
 Gets installed as: `/etc/init.d/openerp-server`
 Depends on PostgreSQL
@@ -160,12 +154,10 @@ See Usage above
 
 `openerp-server.cfg`
 
------------------
 
 Gets installed as: `/etc/openerp-server.cfg`
 
-openerp-web
-___________
+#### openerp-web
 
 Gets installed as: `/etc/init.d/openerp-web`
 Depends on `openerp-server`
