@@ -42,11 +42,11 @@ I tested with two fairly vanilla Ubuntu 10.04 LTS installations.
 
 `2.6.32-32-generic #62-Ubuntu SMP Wed Apr 20 21:54:21 UTC 2011 i686 GNU/Linux`
 
-Check yours with 'uname -rvmo'
+Check yours with `uname -rvmo`
 Your mileage may vary.
 
 
-install.sh
+## install.sh
 __________
 While some of the scripts are useful individually, all are accessible through
 install.sh
@@ -165,7 +165,7 @@ See Usage above
 Gets installed as: `/etc/openerp-server.cfg`
 
 openerp-web
-
+___________
 
 Gets installed as: `/etc/init.d/openerp-web`
 Depends on `openerp-server`
