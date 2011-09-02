@@ -16,9 +16,9 @@
 # --------
 #
 # Author: http://Gainroot.co and J Gifford
-# Acknowledgement is given to J Lynch, 
+# Acknowledgement is given to J Lynch for the bright idea
 #
-# Version 0.92, 20110708
+# Version 0.93, 20110901
 #
 # Tested with a default Ubuntu 10.04 LTS installation. (uname -rvmo)
 # 2.6.32-28-generic-pae #55-Ubuntu SMP Mon Jan 10 22:34:08 UTC 2011 i686 GNU/Linux
@@ -29,7 +29,7 @@
 # Installs OpenERP Server, Client and/or Web on a Ubuntu or Ubuntu-like system.
 #
 # The installation resulting from these files would be good for a demo or
-# proof-of-concept environment but would not be recommended for production.
+# proof-of-concept environment but would __not be recommended for production__.
 #
 
 # See README for more details
