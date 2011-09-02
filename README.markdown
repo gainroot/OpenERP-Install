@@ -9,7 +9,7 @@ OpenERP-Install
 	  * install.sh web
 	Starting & Stopping
 	Other Information
-	  openERP-Install files
+	  openERP installation files
 	    * server.sh
 	    * client.sh
 	    * web.sh
@@ -137,7 +137,7 @@ Log file:	`/var/log/openerp/web-access.log`
 Other Information
 -----------------
 
-## openERP-Install files
+## openERP installation files
 
 The files in the `openERP` directory are called by `install.sh` to do the
 actual installation.
