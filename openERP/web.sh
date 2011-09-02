@@ -16,11 +16,11 @@
 # --------
 #
 # From http://gainroot.co/solutions/openerp
-# Written by Jeffrey Gifford
+# Written by J Gifford
 #
-# Version 0.92, 20110707
+# Version 0.93, 20110902
 #
-# Installs OpenERP 6.0.2 Web
+# Installs OpenERP 6.0.3 Web
 # According to instructions found at:
 # http://doc.openerp.com/v6.0/install/linux/web/index.html
 #
@@ -54,25 +54,25 @@ sudo apt-get -y install python-setuptools
 } >> $LOGFILE 2>&1
 
 # Get and install OpenERP Web
-echo "************  Getting OpenERP Web 6.0.2  ************" | tee -a $LOGFILE
+echo "************  Getting OpenERP Web 6.0.3  ************" | tee -a $LOGFILE
 {
 cd $STAGING_DIR
-wget http://www.openerp.com/download/stable/source/openerp-web-6.0.2.tar.gz
-gzip -dc openerp-web-6.0.2.tar.gz | tar -xvf -
+wget http://www.openerp.com/download/stable/source/openerp-web-6.0.3.tar.gz
+gzip -dc openerp-web-6.0.3.tar.gz | tar -xvf -
 } >> $LOGFILE 2>&1
 ##
 ## Perhaps this next step (populate.sh) isn't necessary?
 ##
 echo "************** Installing Dependencies **************" | tee -a $LOGFILE
 # Checks if file exists.
-if [ ! -d $STAGING_DIR/openerp-web-6.0.2/lib ] ; then
-    echo "Directory \"$STAGING_DIR/openerp-web-6.0.2/lib\" does not exist." | tee -a $LOGFILE
+if [ ! -d $STAGING_DIR/openerp-web-6.0.3/lib ] ; then
+    echo "Directory \"$STAGING_DIR/openerp-web-6.0.3/lib\" does not exist." | tee -a $LOGFILE
     echo "Creating . . ." | tee -a $LOGFILE
-    sudo mkdir $STAGING_DIR/openerp-web-6.0.2/lib
+    sudo mkdir $STAGING_DIR/openerp-web-6.0.3/lib
 fi
-cd $STAGING_DIR/openerp-web-6.0.2/lib
-if [ ! -f $STAGING_DIR/openerp-web-6.0.2/lib/populate.sh ] ; then
-    echo "file \"$STAGING_DIR/openerp-web-6.0.2/lib/populate.sh\" does not exist." | tee -a $LOGFILE
+cd $STAGING_DIR/openerp-web-6.0.3/lib
+if [ ! -f $STAGING_DIR/openerp-web-6.0.3/lib/populate.sh ] ; then
+    echo "file \"$STAGING_DIR/openerp-web-6.0.3/lib/populate.sh\" does not exist." | tee -a $LOGFILE
     echo "Downloading . . ." | tee -a $LOGFILE
 {
     sudo wget http://bazaar.launchpad.net/~openerp/openobject-client-web/6.0/download/head:/populate.sh-20090420111152-vkdawd3ki04ekrac-2/populate.sh
@@ -83,13 +83,13 @@ echo "************ Running ./populate.sh ******************" | tee -a $LOGFILE
 {
 sudo ./populate.sh
 ##
-## Seems like we have to run this next step twice....
+## Seems like we have to run this next/previous step twice....
 ##
 sudo ./populate.sh
 } >> $LOGFILE 2>&1
 
-echo "************ Installing OpenERP Web 6.0.2 ***********" | tee -a $LOGFILE
-cd $STAGING_DIR/openerp-web-6.0.2
+echo "************ Installing OpenERP Web 6.0.3 ***********" | tee -a $LOGFILE
+cd $STAGING_DIR/openerp-web-6.0.3
 {
 sudo python setup.py install
 } >> $LOGFILE 2>&1
