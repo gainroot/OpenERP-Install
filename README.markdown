@@ -3,10 +3,10 @@ OpenERP-Install
 
 	Introduction
 	Requirements
-	Installing with `install.sh`
-	  * install.sh server
-	  * install.sh client
-	  * install.sh web
+	Installing with `install`
+	  * install server
+	  * install client
+	  * install web
 	Starting & Stopping
 	Other Information
 	  openERP installation files
@@ -51,15 +51,15 @@ Check yours with `uname -rvmo`
 
 Your mileage may vary.
 
-Installing with `install.sh`
+Installing with `install`
 ----------------------------
 
 While some of the scripts are useful individually, all are accessible through
-install.sh
+install
 
-`Usage: install.sh [server|client|web]`
+`Usage: install [server|client|web]`
 
-## install.sh server
+## install server
 
 Installs PostgreSQL and the OpenERP Server on your host. Creates a Postgres
 superuser `openerp` with password of `postgres` to get you
@@ -76,7 +76,7 @@ Creates a log file in your home directory. You can watch it by typing:
 
 	tail -f ~/openERP_server_install.log
 
-## install.sh client
+## install client
 
 Installs the OpenERP Client on your host. One of the first things needed
 will be to create a database:
@@ -87,7 +87,7 @@ Creates a log file in your home directory. You can watch it by typing:
 
 	tail -f ~/openERP_client_install.log
 
-## install.sh web
+## install web
 
 Install the OpenERP Web client/server on your host. (It acts like a client
 to the OpenERP Server and yet it serves web pages.)
@@ -139,26 +139,26 @@ Other Information
 
 ## openERP installation files
 
-The files in the `openERP` directory are called by `install.sh` to do the
+The files in the `openERP` directory are called by `install` to do the
 actual installation.
 
 ### server.sh
 
-Corresponds to `./install.sh server` but does NOT call code to install
+Corresponds to `./install server` but does NOT call code to install
 `/etc/init.d/openerp-server`
 
 ### client.sh
 
-Corresponds to `./install.sh client`
+Corresponds to `./install client`
 
 ### web.sh
 
-Corresponds to `./install.sh web` but does NOT call code to install
+Corresponds to `./install web` but does NOT call code to install
 `/etc/init.d/openerp-web`
 
 ## init-files
 
-The following files are installed by `install.sh` to add `openerp-server`
+The following files are installed by `install` to add `openerp-server`
 and `openerp-web` to the boot sequence as managed services.
 
 ### openerp-server
