@@ -16,11 +16,11 @@
 # --------
 #
 # From http://gainroot.co/solutions/openerp
-# Written by Jeffrey Gifford
+# Written by J Gifford
 #
-# Version 0.92, 20110707
+# Version 0.93, 20110902
 #
-# Installs OpenERP 6.0.2 Server and PostgreSQL
+# Installs OpenERP 6.0.3 Server and PostgreSQL
 # According to instructions found at:
 # http://doc.openerp.com/v6.0/install/linux/postgres/index.html
 # http://doc.openerp.com/v6.0/install/linux/server/index.html
@@ -99,15 +99,15 @@ sudo apt-get -y install python-setuptools
 } >> $LOGFILE 2>&1
 
 # Get and install OpenERP server
-echo "************  Getting OpenERP Server 6.0.2 **********" | tee -a $LOGFILE
+echo "************  Getting OpenERP Server 6.0.3 **********" | tee -a $LOGFILE
 {
 cd $STAGING_DIR
-wget http://www.openerp.com/download/stable/source/openerp-server-6.0.2.tar.gz
-gzip -dc openerp-server-6.0.2.tar.gz | tar -xvf -
-cd $STAGING_DIR/openerp-server-6.0.2
+wget http://www.openerp.com/download/stable/source/openerp-server-6.0.3.tar.gz
+gzip -dc openerp-server-6.0.3.tar.gz | tar -xvf -
+cd $STAGING_DIR/openerp-server-6.0.3
 } >> $LOGFILE 2>&1
 
-echo "********** Installing OpenERP Server 6.0.2 **********" | tee -a $LOGFILE
+echo "********** Installing OpenERP Server 6.0.3 **********" | tee -a $LOGFILE
 sudo python setup.py install >> $LOGFILE 2>&1
 
 echo "************************ Done ***********************" | tee -a $LOGFILE

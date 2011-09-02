@@ -16,11 +16,11 @@
 # --------
 #
 # From http://gainroot.co/solutions/openerp
-# Written by Jeffrey Gifford
+# Written by J Gifford
 #
-# Version 0.92, 20110707
+# Version 0.93, 20110902
 #
-# Installs OpenERP 6.0.2 Client
+# Installs OpenERP 6.0.3 Client
 # According to instructions found at:
 # http://doc.openerp.com/v6.0/install/linux/client/index.html
 #
@@ -67,12 +67,12 @@ sudo apt-get -y install python-setuptools
 } >> $LOGFILE 2>&1
 
 # Get and install OpenERP Client
-echo "************  Getting OpenERP Client 6.0.2  *********" | tee -a $LOGFILE
+echo "************  Getting OpenERP Client 6.0.3  *********" | tee -a $LOGFILE
 {
 cd $STAGING_DIR
-wget http://www.openerp.com/download/stable/source/openerp-client-6.0.2.tar.gz
-gzip -dc openerp-client-6.0.2.tar.gz | tar -xvf -
-cd $STAGING_DIR/openerp-client-6.0.2
+wget http://www.openerp.com/download/stable/source/openerp-client-6.0.3.tar.gz
+gzip -dc openerp-client-6.0.3.tar.gz | tar -xvf -
+cd $STAGING_DIR/openerp-client-6.0.3
 sudo python setup.py install
 } >> $LOGFILE 2>&1
 
@@ -83,21 +83,21 @@ echo "****** Cleaning up stuff that should be there *******" | tee -a $LOGFILE
 if ([ ! -d $OPENERP_CLIENT_PACKAGE ] || [ ! -h $OPENERP_CLIENT_PACKAGE ]); then
     echo "File \"$OPENERP_CLIENT_PACKAGE\" does not exist." | tee -a $LOGFILE
     echo "Linking . . ." | tee -a $LOGFILE
-    sudo ln -s /usr/local/lib/python2.6/dist-packages/openerp_client-6.0.2-py2.6.egg/openerp-client $OPENERP_CLIENT_PACKAGE >> $LOGFILE 2>&1
+    sudo ln -s /usr/local/lib/python2.6/dist-packages/openerp_client-6.0.3-py2.6.egg/openerp-client $OPENERP_CLIENT_PACKAGE >> $LOGFILE 2>&1
 fi
 
 # Fix the "openerp-icon.png" issue
 if ([ ! -d $PIXMAPS ] || [ ! -h $PIXMAPS ]); then
     echo "File \"$PIXMAPS\" does not exist." | tee -a $LOGFILE
     echo "Linking . . ." | tee -a $LOGFILE
-    sudo ln -s /usr/local/lib/python2.6/dist-packages/openerp_client-6.0.2-py2.6.egg/share/pixmaps/openerp-client $PIXMAPS >> $LOGFILE 2>&1
+    sudo ln -s /usr/local/lib/python2.6/dist-packages/openerp_client-6.0.3-py2.6.egg/share/pixmaps/openerp-client $PIXMAPS >> $LOGFILE 2>&1
 
 fi
 # Fix  issue
 if ([ ! -d $SHARE ] || [ ! -h $SHARE ]); then
     echo "File \"$SHARE\" does not exist." | tee -a $LOGFILE
     echo "Linking . . ." | tee -a $LOGFILE
-    sudo ln -s /usr/local/lib/python2.6/dist-packages/openerp_client-6.0.2-py2.6.egg/share/openerp-client $SHARE >> $LOGFILE 2>&1
+    sudo ln -s /usr/local/lib/python2.6/dist-packages/openerp_client-6.0.3-py2.6.egg/share/openerp-client $SHARE >> $LOGFILE 2>&1
 fi
 echo "************************ Done ***********************" | tee -a $LOGFILE
 echo "type \"openerp-client\" to start OpenERP Client" | tee -a $LOGFILE
