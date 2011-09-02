@@ -1,41 +1,41 @@
 OpenERP-Install
 ===============
 
-	Introduction
-	Requirements
-	Installing with `install.sh`
-	  install.sh server
-	  install.sh client
-	  install.sh web
-	Starting & Stopping
-	openERP-Install files
-	  server.sh
-	  client.sh
-	  web.sh
-	init-files
-	  openerp-server
-	  openerp-server.cfg
-	  openerp-web
-	To-do List
+  Introduction
+  Requirements
+  Installing with `install.sh`
+   * install.sh server
+   * install.sh client
+   * install.sh web
+  Starting & Stopping
+
+  Other Information
+    openERP-Install files
+     * server.sh
+     * client.sh
+     * web.sh
+    init-files
+     * openerp-server
+     * openerp-server.cfg
+     * openerp-web
+    To-do List
 
 Introduction
 ------------
 Install OpenERP software (Server, Client and Web) on your Ubuntu system.
-
 Currently installs OpenERP 6.0.3
 
 These install files are not intended to be elegant, merely functional.
 
-The impetus for writing these files was the sheer number of manual steps
-required in
-[this link.](http://doc.openerp.com/v6.0/install/index.html#installation-link)
+The impetus for writing these files was the sheer number of manual steps required
+in [this link.](http://doc.openerp.com/v6.0/install/index.html#installation-link)
 
 The installation resulting from these files would be good for a demo or
-proof-of-concept environment but would not be recommended for production.
+proof-of-concept environment but would __not be recommended for production__.
 
-These scripts are maintained at the [Github repo](https://github.com/gainroot/OpenERP-Install)
-
-They are released under a GNU General Public License. If you have improvements,
+These scripts are maintained at the
+[Github repo](https://github.com/gainroot/OpenERP-Install). They are released
+under a GNU General Public License. If you have improvements,
 please contribute via github.
 
 For more information, please visit http://gainroot.co/solutions/openerp
@@ -51,7 +51,6 @@ I tested with two fairly vanilla Ubuntu 10.04 LTS installations.
 Check yours with `uname -rvmo`
 
 Your mileage may vary.
-
 
 Installing with `install.sh`
 ----------------------------
@@ -136,70 +135,69 @@ Log file:	`/var/log/openerp/web-access.log`
 
     		`/var/log/openerp/web-error.log`
 
-openERP-Install files
----------------------
+Other Information
+-----------------
 
-The files in this directory are called by `install.sh` to do the actual
-installation.
+## openERP-Install files
 
-## `server.sh`
+The files in the `openERP` directory are called by `install.sh` to do the
+actual installation.
 
-Corresponds to `./install.sh server`
+### server.sh
 
-Also calls code to install `/etc/init.d/openerp-server`
+Corresponds to `./install.sh server` but does NOT call code to install
+`/etc/init.d/openerp-server`
 
-## client.sh
+### client.sh
 
 Corresponds to `./install.sh client`
 
-## web.sh
+### web.sh
 
-Corresponds to `./install.sh web`
-Also calls code to install `/etc/init.d/openerp-web`
+Corresponds to `./install.sh web` but does NOT call code to install
+`/etc/init.d/openerp-web`
 
-init-files
-----------
+## init-files
 
-The following files are called by install.sh to add openerp-server
-and openerp-web to the boot sequence as managed services.
+The following files are installed by `install.sh` to add `openerp-server`
+and `openerp-web` to the boot sequence as managed services.
 
-## `openerp-server`
+### openerp-server
 
 Gets installed as: `/etc/init.d/openerp-server`
 
 Depends on PostgreSQL
 
-See Usage above
+Usage:		`sudo /etc/init.d/openerp-server start|stop|restart`
 
-## `openerp-server.cfg`
+### openerp-server.cfg
 
 Gets installed as: `/etc/openerp-server.cfg`
 
 Used by `/etc/init.d/openerp-server`
 
-## `openerp-web`
+### openerp-web
 
 Gets installed as: `/etc/init.d/openerp-web`
 
 Depends on `openerp-server`
 
-See Usage above
+Usage:		`sudo /etc/init.d/openerp-web start|stop|restart`
 
-## `openerp-web.cfg`
+### openerp-web.cfg
 
 Gets installed as: `/etc/openerp-web.cfg`
 
 Used by `/etc/init.d/openerp-web`
 
 
-To-Do
------
+## To-Do
 
-Each install file spits all output (stderr and stout) to a named logfile
+* Each install file spits all output (stderr and stout) to a named logfile
 
-OpenERP Server and OpenERP Web log files are properly stored, rotated & maintained
+* OpenERP Server and OpenERP Web log files are properly stored, rotated & maintained
 
-Make it possible to specify passwords to use rather than accepting the defaults
+* Make it possible to specify passwords to use rather than accepting the defaults
 
 ===
 END
