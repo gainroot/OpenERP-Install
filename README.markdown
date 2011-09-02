@@ -63,9 +63,8 @@ install.sh
 
 ## install.sh server
 
-Installs PostgreSQL and the OpenERP Server on your host.
-
-Creates a Postgres superuser `openerp` with password of `postgres` to get you
+Installs PostgreSQL and the OpenERP Server on your host. Creates a Postgres
+superuser `openerp` with password of `postgres` to get you
 started. 
 
 These settings (`db_user`, `db_password` and `db_host`) are added as options
@@ -76,68 +75,66 @@ Creates a system user `openerp` to run the openerp-server
 Adds openERP Server to the boot sequence as a managed service.
 
 Creates a log file in your home directory. You can watch it by typing:
-	`tail -f ~/openERP_server_install.log`
+
+	tail -f ~/openERP_server_install.log
 
 ## install.sh client
 
-Installs the OpenERP Client on your host.
+Installs the OpenERP Client on your host. One of the first things needed
+will be to create a database:
 
-One of the first things needed will be to create a database:
-
-File -> Databases -> New database
+	 File -> Databases -> New database
 
 Creates a log file in your home directory. You can watch it by typing:
+
 	tail -f ~/openERP_client_install.log
 
 ## install.sh web
 
-
-Install the OpenERP Web client/server on your host.
-
-(It acts like a client to the OpenERP Server and yet it serves web pages.)
+Install the OpenERP Web client/server on your host. (It acts like a client
+to the OpenERP Server and yet it serves web pages.)
 
 Adds openERP Web to the boot sequence as a managed service.
 
 Creates a log file in your home directory. You can watch it by typing:
-	`tail -f ~/openERP_web_install.log`
+
+	tail -f ~/openERP_web_install.log
 
 Starting & Stopping
 -------------------
 
 ## OpenERP Server
 
-Usage:		sudo /etc/init.d/openerp-server start|stop|restart
+Usage:		`sudo /etc/init.d/openerp-server start|stop|restart`
 
-Config file:	/etc/openerp-server.cfg
+Config file:	`/etc/openerp-server.cfg`
 
-Log file:	/var/log/openerp/openerp-server.log
+Log file:	`/var/log/openerp/openerp-server.log`
 
 
 ## OpenERP Client
 
-Usage:		/usr/local/bin/openerp-client
+Usage:		`/usr/local/bin/openerp-client`
 
-Config file:	~/.openerprc
+Config file:	`~/.openerprc`
 
 Log file:	unknown
 
 Notes:		Make certain you're connected to a windowing environment
-
 		(X11, etc.) before starting this process.
-
 		One of the first things needed will be to create a database:
 
 		  File -> Databases -> New database
 
 ## OpenERP Web
 
-Usage:		sudo /etc/init.d/openerp-web start|stop|restart
+Usage:		`sudo /etc/init.d/openerp-web start|stop|restart`
 
-Config file:	/etc/openerp-web.cfg
+Config file:	/etc/openerp-web.cfg`
 
-Log file:	/var/log/openerp/web-access.log
+Log file:	`/var/log/openerp/web-access.log`
 
-    		/var/log/openerp/web-error.log
+    		`/var/log/openerp/web-error.log`
 
 openERP-Install files
 ---------------------
@@ -147,9 +144,9 @@ installation.
 
 ## `server.sh`
 
-Corresponds to `./install.sh server`.
+Corresponds to `./install.sh server`
 
-Also calls code to install /etc/init.d/openerp-server
+Also calls code to install `/etc/init.d/openerp-server`
 
 ## client.sh
 
@@ -159,7 +156,6 @@ Corresponds to `./install.sh client`
 
 Corresponds to `./install.sh web`
 Also calls code to install `/etc/init.d/openerp-web`
-
 
 init-files
 ----------
