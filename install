@@ -48,7 +48,7 @@ CONFIG_MODE=640
 INIT_MODE=755
 WEB=openerp-web
 #INITFILES=$BASE/init-files
-DEBUG="true"
+#DEBUG="true"
 USER=openerp
 # That's all, stop editing!
 # ---------------------------------------------------------
