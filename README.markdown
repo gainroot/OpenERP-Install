@@ -1,24 +1,23 @@
 OpenERP-Install
 ===============
 
-  Introduction
-  Requirements
-  Installing with `install.sh`
-   * install.sh server
-   * install.sh client
-   * install.sh web
-  Starting & Stopping
-
-  Other Information
-    openERP-Install files
-     * server.sh
-     * client.sh
-     * web.sh
-    init-files
-     * openerp-server
-     * openerp-server.cfg
-     * openerp-web
-    To-do List
+	Introduction
+	Requirements
+	Installing with `install.sh`
+	  * install.sh server
+	  * install.sh client
+	  * install.sh web
+	Starting & Stopping
+	Other Information
+	  openERP-Install files
+	    * server.sh
+	    * client.sh
+	    * web.sh
+	  init-files
+	    * openerp-server
+	    * openerp-server.cfg
+	    * openerp-web
+	To-do List
 
 Introduction
 ------------
@@ -191,7 +190,8 @@ Gets installed as: `/etc/openerp-web.cfg`
 Used by `/etc/init.d/openerp-web`
 
 
-## To-Do
+To-Do
+-----
 
 * Each install file spits all output (stderr and stout) to a named logfile
 
