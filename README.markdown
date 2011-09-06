@@ -13,10 +13,12 @@ OpenERP-Install
 	    * server.sh
 	    * client.sh
 	    * web.sh
+	    * davserver.sh
 	  init-files
 	    * openerp-server
 	    * openerp-server.cfg
 	    * openerp-web
+	    * openerp-web.cfg
 	To-do List
 
 Introduction
@@ -156,6 +158,11 @@ Corresponds to `./install client`
 Corresponds to `./install web` but does NOT call code to install
 `/etc/init.d/openerp-web`
 
+### davserver.sh
+
+Corresponds to `./install davserver` but does NOT call code to install
+`/etc/init.d/davserver`
+
 ## init-files
 
 The following files are installed by `install` to add `openerp-server`
@@ -188,6 +195,18 @@ Usage:		`sudo /etc/init.d/openerp-web start|stop|restart`
 Gets installed as: `/etc/openerp-web.cfg`
 
 Used by `/etc/init.d/openerp-web`
+
+### davserver
+
+Gets installed as: `/etc/init.d/davserver`
+
+Usage:		`sudo /etc/init.d/davserver start|stop|restart`
+
+### davserver.cfg
+
+Gets installed as: `/etc/davserver.cfg`
+
+Used by `/etc/init.d/davserver`
 
 
 To-Do
