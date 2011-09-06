@@ -7,6 +7,7 @@ OpenERP-Install
 	  * install server
 	  * install client
 	  * install web
+	  * install davserver
 	Starting & Stopping
 	Other Information
 	  openERP installation files
@@ -19,6 +20,8 @@ OpenERP-Install
 	    * openerp-server.cfg
 	    * openerp-web
 	    * openerp-web.cfg
+	    * davserver
+	    * davserver.cfg
 	To-do List
 
 Introduction
@@ -100,6 +103,16 @@ Creates a log file in your home directory. You can watch it by typing:
 
 	tail -f ~/openERP_web_install.log
 
+## install davserver
+
+Install the Python WebDAV server on your host.
+
+Adds Python WebDAV to the boot sequence as a managed service.
+
+Creates a log file in your home directory. You can watch it by typing:
+
+	tail -f ~/davserver_install.log
+
 Starting & Stopping
 -------------------
 
@@ -130,11 +143,22 @@ Notes:		Make certain you're connected to a windowing environment
 
 Usage:		`sudo /etc/init.d/openerp-web start|stop|restart`
 
-Config file:	/etc/openerp-web.cfg`
+Config file:	`/etc/openerp-web.cfg`
 
 Log file:	`/var/log/openerp/web-access.log`
 
     		`/var/log/openerp/web-error.log`
+
+## Python WebDAV
+
+Usage:		`sudo /etc/init.d/davserver start|stop|restart`
+
+Config file:	`/etc/davserver.cfg`
+
+Log file:	unknown
+
+Notes:		none
+
 
 Other Information
 -----------------
