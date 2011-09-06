@@ -24,7 +24,7 @@
 # 2.6.32-28-generic-pae #55-Ubuntu SMP Mon Jan 10 22:34:08 UTC 2011 i686 GNU/Linux
 # Your mileage may vary.
 #
-# Usage: ./install.sh {server|client|web}
+# Usage: ./install.sh {server|client|web|davserver}
 #
 # Installs OpenERP Server, Client and/or Web on a Ubuntu or Ubuntu-like system.
 #
@@ -47,6 +47,7 @@ SERVER=openerp-server
 CONFIG_MODE=640
 INIT_MODE=755
 WEB=openerp-web
+DAVSERVER=davserver
 #INITFILES=$BASE/init-files
 #DEBUG="true"
 USER=openerp
@@ -189,6 +190,30 @@ case "$1" in
 	echo "Done. Please check above messages and/or $LOGFILE for errors."
 	echo "If none found, start OpenERP Web by typing:"
 	echo "sudo /etc/init.d/openerp-web start"
+	;;
+  davserver)
+	# set LOGFILE
+	LOGFILE=~/openERP_$1_install.log
+
+	# install Python WebDAV
+	$BASE/openERP/davserver.sh #$LOGFILE
+
+	# create the openerp user
+	create_user #$USER
+
+	# install the config file in /etc
+	install_config_file $DAVSERVER.cfg
+
+	# install the init file in /etc/rc.d
+	install_init_file $DAVSERVER
+
+	# Propagate openerp-server init file into correct RC levels
+	link_init_file $DAVSERVER
+
+	# Done
+	echo "Done. Please check above messages and/or $LOGFILE for errors."
+	echo "If none found, start Python WebDAV by typing:"
+	echo "sudo /etc/init.d/davserver start"
 	;;
   *)
 	echo "Usage: $SCRIPTNAME {server|client|web}" >&2
