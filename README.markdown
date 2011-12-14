@@ -1,6 +1,8 @@
 OpenERP-Install
 ===============
 
+Note: beginning work on supporting Ubuntu 11.x
+
 	Introduction
 	Requirements
 	Installing with `install`
